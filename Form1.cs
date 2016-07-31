@@ -15,6 +15,7 @@ namespace stock
     public partial class Form1 : Form
     {
         private Thread main;    //主线程
+        private bool formClosed=false;
         private String url_prex = "http://hq.sinajs.cn";
         private const String TICKER_URL = "/";
         private String name1;
@@ -263,8 +264,14 @@ namespace stock
             }
             finally
             {
-                Thread.Sleep(5000);
-                getAllTicker();
+                if (formClosed)
+                {
+                    main.Abort();
+                }else
+                {
+                    Thread.Sleep(5000);
+                    getAllTicker();
+                }
             }
         }
 
@@ -449,6 +456,11 @@ namespace stock
         private void textBox18_TextChanged(object sender, EventArgs e)
         {
             IniReadWriter.WriteIniKeys("stock", "quantity6", textBox18.Text, "./CF.ini");
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formClosed = true;
         }
     }
 }
