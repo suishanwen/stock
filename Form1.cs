@@ -77,10 +77,10 @@ namespace stock
             price6 = IniReadWriter.ReadIniKeys("stock", "price6", "./CF.ini");
             String percentage1 = IniReadWriter.ReadIniKeys("stock", "percentage1", "./CF.ini");
             String percentage2 = IniReadWriter.ReadIniKeys("stock", "percentage2", "./CF.ini");
-            String percentage3 = IniReadWriter.ReadIniKeys("stock", "percentage4", "./CF.ini");
-            String percentage4 = IniReadWriter.ReadIniKeys("stock", "percentage5", "./CF.ini");
-            String percentage5 = IniReadWriter.ReadIniKeys("stock", "percentage6", "./CF.ini");
-            String percentage6 = IniReadWriter.ReadIniKeys("stock", "percentage7", "./CF.ini");
+            String percentage3 = IniReadWriter.ReadIniKeys("stock", "percentage3", "./CF.ini");
+            String percentage4 = IniReadWriter.ReadIniKeys("stock", "percentage4", "./CF.ini");
+            String percentage5 = IniReadWriter.ReadIniKeys("stock", "percentage5", "./CF.ini");
+            String percentage6 = IniReadWriter.ReadIniKeys("stock", "percentage6", "./CF.ini");
             String shares1 = IniReadWriter.ReadIniKeys("stock", "shares1", "./CF.ini");
             String shares2 = IniReadWriter.ReadIniKeys("stock", "shares2", "./CF.ini");
             String shares3 = IniReadWriter.ReadIniKeys("stock", "shares3", "./CF.ini");
