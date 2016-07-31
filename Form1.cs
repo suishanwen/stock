@@ -45,11 +45,11 @@ namespace stock
         private void initConfig()
         {
             String stock1 = IniReadWriter.ReadIniKeys("stock", "stock1", "./CF.ini");
-            String stock2 = IniReadWriter.ReadIniKeys("stock", "stock1", "./CF.ini");
-            String stock3 = IniReadWriter.ReadIniKeys("stock", "stock1", "./CF.ini");
-            String stock4 = IniReadWriter.ReadIniKeys("stock", "stock1", "./CF.ini");
-            String stock5 = IniReadWriter.ReadIniKeys("stock", "stock1", "./CF.ini");
-            String stock6 = IniReadWriter.ReadIniKeys("stock", "stock1", "./CF.ini");
+            String stock2 = IniReadWriter.ReadIniKeys("stock", "stock2", "./CF.ini");
+            String stock3 = IniReadWriter.ReadIniKeys("stock", "stock3", "./CF.ini");
+            String stock4 = IniReadWriter.ReadIniKeys("stock", "stock4", "./CF.ini");
+            String stock5 = IniReadWriter.ReadIniKeys("stock", "stock5", "./CF.ini");
+            String stock6 = IniReadWriter.ReadIniKeys("stock", "stock6", "./CF.ini");
             String cost1 = IniReadWriter.ReadIniKeys("stock", "cost1", "./CF.ini");
             String cost2 = IniReadWriter.ReadIniKeys("stock", "cost2", "./CF.ini");
             String cost3 = IniReadWriter.ReadIniKeys("stock", "cost3", "./CF.ini");
