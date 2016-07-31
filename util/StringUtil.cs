@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace stock.util
 {
@@ -24,6 +25,22 @@ namespace stock.util
             if (tempStr.Equals(("null")))
                 return true;
             return false;
+        }
+
+        public static void setText(TextBox textbox,String text)
+        {
+            if (!isEmpty(text))
+            {
+                textbox.Text = text;
+            }
+        }
+
+        public static void setLabel(Label label, String text)
+        {
+            if (!isEmpty(text))
+            {
+                label.Text = text;
+            }
         }
     }
 }

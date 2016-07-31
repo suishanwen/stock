@@ -10,3 +10,9 @@ C:\Users\sw\Desktop\c#\stock\stock\stock\obj\Debug\stock.pdb
 C:\Users\sw\Desktop\c#\stock\stock\bin\Debug\stock.exe.config
 C:\Users\sw\Desktop\c#\stock\stock\obj\Debug\stock.exe
 C:\Users\sw\Desktop\c#\stock\stock\obj\Debug\stock.pdb
+C:\Users\sw\Desktop\c#\stock\stock\bin\Debug\stock.exe
+C:\Users\sw\Desktop\c#\stock\stock\bin\Debug\stock.pdb
+C:\Users\sw\Desktop\c#\stock\stock\obj\Debug\stock.csprojResolveAssemblyReference.cache
+C:\Users\sw\Desktop\c#\stock\stock\obj\Debug\stock.Form1.resources
+C:\Users\sw\Desktop\c#\stock\stock\obj\Debug\stock.Properties.Resources.resources
+C:\Users\sw\Desktop\c#\stock\stock\obj\Debug\stock.csproj.GenerateResource.Cache
