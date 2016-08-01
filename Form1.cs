@@ -357,6 +357,10 @@ namespace stock
 
             label31.Text = getTotalShares();
 
+            if (!StringUtil.isEmpty(_index) && !StringUtil.isEmpty(_open))
+            {
+                this.Text = "持仓分析        " + "上证指数 " + Math.Round(float.Parse(_index), 2) + "   " + (Math.Round((float.Parse(_index) - float.Parse(_open)) / float.Parse(_open) * 100, 3) + "%");
+            }
             IniReadWriter.WriteIniKeys("stock", "percentage1", label13.Text, "./CF.ini");
             IniReadWriter.WriteIniKeys("stock", "shares1", label19.Text, "./CF.ini");
 
