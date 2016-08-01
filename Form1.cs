@@ -18,6 +18,10 @@ namespace stock
         private bool formClosed=false;
         private String url_prex = "http://hq.sinajs.cn";
         private const String TICKER_URL = "/";
+
+        private String _index;
+        private String _open;
+
         private String name1;
         private String price1;
         private String name2;
@@ -63,7 +67,9 @@ namespace stock
             String quantity4 = IniReadWriter.ReadIniKeys("stock", "quantity4", "./CF.ini");
             String quantity5 = IniReadWriter.ReadIniKeys("stock", "quantity5", "./CF.ini");
             String quantity6 = IniReadWriter.ReadIniKeys("stock", "quantity6", "./CF.ini");
-            name1=IniReadWriter.ReadIniKeys("stock", "name1", "./CF.ini");
+            _index = IniReadWriter.ReadIniKeys("stock", "_index", "./CF.ini");
+            _open = IniReadWriter.ReadIniKeys("stock", "_open", "./CF.ini");
+            name1 = IniReadWriter.ReadIniKeys("stock", "name1", "./CF.ini");
             name2 = IniReadWriter.ReadIniKeys("stock", "name2", "./CF.ini");
             name3 = IniReadWriter.ReadIniKeys("stock", "name3", "./CF.ini");
             name4 = IniReadWriter.ReadIniKeys("stock", "name4", "./CF.ini");
@@ -92,6 +98,10 @@ namespace stock
             String totalPercentage = IniReadWriter.ReadIniKeys("stock", "totalPercentage", "./CF.ini");
             String totalShares = IniReadWriter.ReadIniKeys("stock", "totalShares", "./CF.ini");
 
+            if(!StringUtil.isEmpty(_index)&& !StringUtil.isEmpty(_open))
+            {
+                this.Text = "持仓分析        " + "上证指数 " + Math.Round(float.Parse(_index),2) + "   " + (Math.Round((float.Parse(_index) - float.Parse(_open)) / float.Parse(_open) * 100,3) + "%");
+            }
             StringUtil.setText(textBox1, stock1);
             StringUtil.setText(textBox2, stock2);
             StringUtil.setText(textBox3, stock3);
@@ -146,12 +156,12 @@ namespace stock
 
         private String getTickerShares(float buyPrice, float currentPrice,int quantity)
         {
-            return (currentPrice - buyPrice) * quantity + "";
+            return Math.Round((currentPrice - buyPrice) * quantity,2) + "";
         }
 
         private String getTickerPercentage(float buyPrice, float currentPrice)
         {
-            return (currentPrice - buyPrice) / buyPrice * 100 + "%";
+            return Math.Round((currentPrice - buyPrice) / buyPrice * 100,2) + "%";
         }
 
         private String getAllCosts()
@@ -162,7 +172,7 @@ namespace stock
             float cost4 = float.Parse(textBox10.Text) * int.Parse(textBox16.Text);
             float cost5 = float.Parse(textBox11.Text) * int.Parse(textBox17.Text);
             float cost6 = float.Parse(textBox12.Text) * int.Parse(textBox18.Text);
-            return cost1 + cost2 + cost3 + cost4 + cost5 + cost6 + "";
+            return Math.Round(cost1 + cost2 + cost3 + cost4 + cost5 + cost6,2) + "";
         }
 
         private String getCurrentMarketValue()
@@ -173,72 +183,66 @@ namespace stock
             float value4 = float.Parse(label10.Text) * int.Parse(textBox16.Text);
             float value5 = float.Parse(label11.Text) * int.Parse(textBox17.Text);
             float value6 = float.Parse(label12.Text) * int.Parse(textBox18.Text);
-            return value1 + value2 + value3 + value4 + value5 + value6 + "";
+            return Math.Round(value1 + value2 + value3 + value4 + value5 + value6,2) + "";
         }
 
         private String getTotalShares()
         {
-            return float.Parse(label28.Text) - float.Parse(label26.Text)  + "";
+            return Math.Round(float.Parse(label28.Text) - float.Parse(label26.Text),2)  + "";
         }
 
         private String getTotalPercentage()
         {
-            return float.Parse(getTotalShares()) / float.Parse(label28.Text)*100 + "%";
+            return Math.Round(float.Parse(getTotalShares()) / float.Parse(label28.Text)*100,2) + "%";
         }
 
         private void getAllTicker()
         {
             try
             {
-                String _ticker = ticker(textBox1.Text);
-                String _tickerTemp = "";
-                name1 = _ticker.Substring(_ticker.IndexOf("=") + 2, _ticker.IndexOf(",") - (_ticker.IndexOf("=") + 2));
-                _tickerTemp = _ticker;
-                for (int i = 0; i < 6; i++)
+                String[] _codes = { "sh000001", textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text };
+                String _ticker = ticker(_codes);
+                String[] _tickers = _ticker.Split(';');
+                for(int i = 0; i < _tickers.Length; i++)
                 {
-                    _tickerTemp = _tickerTemp.Substring(_tickerTemp.IndexOf(",") + 1);
+                    String[] _array = _tickers[i].Split(',');
+                    switch (i)
+                    {
+                        case 0:
+                            _open = _array[1];
+                            _index = _array[3];
+                            break;
+                        case 1:
+                            name1 = _array[0].Substring(_array[0].IndexOf("=\"") + 2);
+                            price1 = _array[6];
+                            break;
+                        case 2:
+                            name2 = _array[0].Substring(_array[0].IndexOf("=\"") + 2);
+                            price2 = _array[6];
+                            break;
+                        case 3:
+                            name3 = _array[0].Substring(_array[0].IndexOf("=\"") + 2);
+                            price3 = _array[6];
+                            break;
+                        case 4:
+                            name4 = _array[0].Substring(_array[0].IndexOf("=\"") + 2);
+                            price4 = _array[6];
+                            break;
+                        case 5:
+                            name5 = _array[0].Substring(_array[0].IndexOf("=\"") + 2);
+                            price5 = _array[6];
+                            break;
+                        case 6:
+                            name6 = _array[0].Substring(_array[0].IndexOf("=\"") + 2);
+                            price6 = _array[6];
+                            break;
+                    }
+
                 }
-                price1 = _tickerTemp.Substring(0, _tickerTemp.IndexOf(","));
-                _ticker = ticker(textBox2.Text);
-                name2 = _ticker.Substring(_ticker.IndexOf("=") + 2, _ticker.IndexOf(",") - (_ticker.IndexOf("=") + 2));
-                _tickerTemp = _ticker;
-                for (int i = 0; i < 6; i++)
-                {
-                    _tickerTemp = _tickerTemp.Substring(_tickerTemp.IndexOf(",") + 1);
-                }
-                price2 = _tickerTemp.Substring(0, _tickerTemp.IndexOf(","));
-                _ticker = ticker(textBox3.Text);
-                name3 = _ticker.Substring(_ticker.IndexOf("=") + 2, _ticker.IndexOf(",") - (_ticker.IndexOf("=") + 2));
-                _tickerTemp = _ticker;
-                for (int i = 0; i < 6; i++)
-                {
-                    _tickerTemp = _tickerTemp.Substring(_tickerTemp.IndexOf(",") + 1);
-                }
-                price3 = _tickerTemp.Substring(0, _tickerTemp.IndexOf(","));
-                _ticker = ticker(textBox4.Text);
-                name4 = _ticker.Substring(_ticker.IndexOf("=") + 2, _ticker.IndexOf(",") - (_ticker.IndexOf("=") + 2));
-                _tickerTemp = _ticker;
-                for (int i = 0; i < 6; i++)
-                {
-                    _tickerTemp = _tickerTemp.Substring(_tickerTemp.IndexOf(",") + 1);
-                }
-                price4 = _tickerTemp.Substring(0, _tickerTemp.IndexOf(","));
-                _ticker = ticker(textBox5.Text);
-                name5 = _ticker.Substring(_ticker.IndexOf("=") + 2, _ticker.IndexOf(",") - (_ticker.IndexOf("=") + 2));
-                _tickerTemp = _ticker;
-                for (int i = 0; i < 6; i++)
-                {
-                    _tickerTemp = _tickerTemp.Substring(_tickerTemp.IndexOf(",") + 1);
-                }
-                price5 = _tickerTemp.Substring(0, _tickerTemp.IndexOf(","));
-                _ticker = ticker(textBox6.Text);
-                name6 = _ticker.Substring(_ticker.IndexOf("=") + 2, _ticker.IndexOf(",") - (_ticker.IndexOf("=") + 2));
-                _tickerTemp = _ticker;
-                for (int i = 0; i < 6; i++)
-                {
-                    _tickerTemp = _tickerTemp.Substring(_tickerTemp.IndexOf(",") + 1);
-                }
-                price6 = _tickerTemp.Substring(0, _tickerTemp.IndexOf(","));
+
+
+                IniReadWriter.WriteIniKeys("stock", "_open", _open, "./CF.ini");
+                IniReadWriter.WriteIniKeys("stock", "_index", _index, "./CF.ini");
 
                 IniReadWriter.WriteIniKeys("stock", "name1", name1, "./CF.ini");
                 IniReadWriter.WriteIniKeys("stock", "price1", price1, "./CF.ini");
@@ -269,33 +273,43 @@ namespace stock
                     main.Abort();
                 }else
                 {
-                    Thread.Sleep(5000);
+                    Thread.Sleep(3000);
                     getAllTicker();
                 }
             }
         }
 
-        private String ticker(String symbol)
+        private String ticker(String[] symbol)
         {
             String result = "";
             try
             {
                 HttpUtilManager httpUtil = HttpUtilManager.getInstance();
                 String param = "";
-                if (!StringUtil.isEmpty(symbol))
+                if (symbol.Length>0)
                 {
                     if (!param.Equals(""))
                     {
                         param += "&";
                     }
-                    if (symbol.Substring(0, 3) == "600")
+                    String list = "";
+                    for(int i = 0; i < symbol.Length; i++)
                     {
-                        symbol = "sh" + symbol;
-                    } else{
-                        symbol = "sz" + symbol;
+                        if (i == 0)
+                        {
+                            list += symbol[i];
+                            continue;
+                        }
+                        if (symbol[i].Substring(0, 3) == "600")
+                        {
+                            list += ",sh" + symbol[i];
+                        }
+                        else
+                        {
+                            list += ",sz" + symbol[i];
+                        }
                     }
-
-                    param += "list=" + symbol;
+                    param += "list=" + list;
                 }
                 result = httpUtil.requestHttpGet(url_prex, TICKER_URL, param);
             }
