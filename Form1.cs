@@ -209,7 +209,7 @@ namespace stock
                     switch (i)
                     {
                         case 0:
-                            _open = _array[1];
+                            _open = _array[2];
                             _index = _array[3];
                             break;
                         case 1:
